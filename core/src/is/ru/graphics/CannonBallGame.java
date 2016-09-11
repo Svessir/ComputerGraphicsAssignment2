@@ -8,8 +8,10 @@ import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.utils.BufferUtils;
 
+import is.ru.graphics.gameobjects.CannonBall;
 import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.graphics.RectangleGraphics;
+import is.ru.graphics.math.ModelMatrix;
 
 public class CannonBallGame extends ApplicationAdapter {
 	
@@ -31,8 +33,10 @@ public class CannonBallGame extends ApplicationAdapter {
 	
 	private static CannonBallGame instance = new CannonBallGame();
 	
+	private CannonBall ball;
+	
 	private CannonBallGame() {
-		
+		ball = new CannonBall();
 	}
 	
 	public static CannonBallGame getInstance() {
@@ -91,6 +95,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		//COLOR IS SET HERE
 		Gdx.gl.glUniform4f(colorLoc, 0.7f, 0.2f, 0, 1);
 		
+		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
 		// Assign shader to RectangleGraphics
 		RectangleGraphics.create(positionLoc);
 	}
@@ -113,17 +118,18 @@ public class CannonBallGame extends ApplicationAdapter {
 	 * Updates all objects in the game world
 	 */
 	private void update() {
+		float deltatime = Gdx.graphics.getDeltaTime();
+		ball.update(deltatime);
 	}
 	
 	/**
 	 * Displays all objects in the game world
 	 */
 	private void display() {
-		OrthographicProjection2D(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight());
+		OrthographicProjection2D(-2, 2, -2, 2);
 		clearScreen();
-		setModelMatrixTranslation(500, 500);
-		setModelMatrixScale(1, 1.5f);
-		RectangleGraphics.drawSolidSquare();
+		
+		ball.draw();
 	}
 	
 	private void clearScreen() {

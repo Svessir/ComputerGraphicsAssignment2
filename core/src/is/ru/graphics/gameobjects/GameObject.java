@@ -3,6 +3,7 @@ package is.ru.graphics.gameobjects;
 import com.badlogic.gdx.math.Vector2;
 
 import is.ru.graphics.CannonBallGame;
+import is.ru.graphics.math.ModelMatrix;
 
 /**
  * The super type that every object in the game
@@ -11,15 +12,10 @@ import is.ru.graphics.CannonBallGame;
  */
 public abstract class GameObject {
 	
-	// Object position in the world
-	protected Vector2 position;
-	
-	// Object forward direction;
-	protected Vector2 forward;
+	protected ModelMatrix transform;
 	
 	public GameObject() {
-		// Default position in global origin
-		position = new Vector2(0.0f, 0.0f);
+		transform = new ModelMatrix();
 	}
 	
 	/**
