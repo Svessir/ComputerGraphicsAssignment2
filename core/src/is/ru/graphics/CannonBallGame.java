@@ -4,18 +4,24 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
+import java.awt.Canvas;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.utils.BufferUtils;
 
+import is.ru.graphics.gameobjects.Camera;
+import is.ru.graphics.gameobjects.Cannon;
 import is.ru.graphics.gameobjects.CannonBall;
+import is.ru.graphics.gameobjects.GameCanvas;
 import is.ru.graphics.gameobjects.GameObject;
+import is.ru.graphics.gameobjects.RectangleObstacle;
+import is.ru.graphics.gameobjects.Target;
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
 public class CannonBallGame extends ApplicationAdapter {
-	
-	private FloatBuffer vertexBuffer;
 
 	private FloatBuffer modelMatrix;
 	private FloatBuffer projectionMatrix;
@@ -33,10 +39,19 @@ public class CannonBallGame extends ApplicationAdapter {
 	
 	private static CannonBallGame instance = new CannonBallGame();
 	
-	private CannonBall ball;
+	private ArrayList<GameObject> gameObjects;
+	private ArrayList<GameObject> addedGameObjects;
+	private ArrayList<GameObject> removedGameObjects;
 	
 	private CannonBallGame() {
-		ball = new CannonBall();
+		gameObjects = new ArrayList<GameObject>();
+		gameObjects.add(new Cannon());
+		gameObjects.add(new Target());
+		//gameObjects.add(new RectangleObstacle(1, 1, 5, 5));
+		gameObjects.add(new GameCanvas(new RectangleObstacle(), new RectangleObstacle()));
+		
+		addedGameObjects = new ArrayList<GameObject>();
+		removedGameObjects = new ArrayList<GameObject>();
 	}
 	
 	public static CannonBallGame getInstance() {
@@ -96,8 +111,12 @@ public class CannonBallGame extends ApplicationAdapter {
 		Gdx.gl.glUniform4f(colorLoc, 0.7f, 0.2f, 0, 1);
 		
 		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
+		
 		// Assign shader to RectangleGraphics
 		RectangleGraphics.create(positionLoc);
+		
+		Camera.OrthographicProjection2D(-15, 15, -3, 27);
+		Camera.setProjectionMatrix(projectionMatrixLoc);
 	}
 
 	@Override
@@ -107,11 +126,11 @@ public class CannonBallGame extends ApplicationAdapter {
 	}
 	
 	public void addGameObject(GameObject object) {
-		// TODO: Add the object to data structure.
+		addedGameObjects.add(object);
 	}
 	
 	public void removeGameObject(GameObject object) {
-		// TODO: Remove the object from the data structure
+		removedGameObjects.remove(object);
 	}
 	
 	/**
@@ -119,17 +138,26 @@ public class CannonBallGame extends ApplicationAdapter {
 	 */
 	private void update() {
 		float deltatime = Gdx.graphics.getDeltaTime();
-		ball.update(deltatime);
+		
+		for(GameObject o : gameObjects) {
+			o.update(deltatime);
+		}
+		
+		gameObjects.addAll(addedGameObjects);
+		gameObjects.removeAll(removedGameObjects);
+		addedGameObjects.clear();
+		removedGameObjects.clear();
 	}
 	
 	/**
 	 * Displays all objects in the game world
 	 */
 	private void display() {
-		OrthographicProjection2D(-2, 2, -2, 2);
 		clearScreen();
 		
-		ball.draw();
+		for(GameObject o : gameObjects) {
+			o.draw(colorLoc);
+		}
 	}
 	
 	private void clearScreen() {

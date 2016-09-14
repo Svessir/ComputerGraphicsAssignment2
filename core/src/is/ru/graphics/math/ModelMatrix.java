@@ -127,27 +127,32 @@ public class ModelMatrix {
 
 	public void pushMatrix()
 	{
-		Mtmp[0] = matrix.get(0);
-		Mtmp[1] = matrix.get(1);
-		Mtmp[2] = matrix.get(2);
-		Mtmp[3] = matrix.get(3);
-		Mtmp[4] = matrix.get(4);
-		Mtmp[5] = matrix.get(5);
-		Mtmp[6] = matrix.get(6);
-		Mtmp[7] = matrix.get(7);
-		Mtmp[8] = matrix.get(8);
-		Mtmp[9] = matrix.get(9);
-		Mtmp[10] = matrix.get(10);
-		Mtmp[11] = matrix.get(11);
-		Mtmp[12] = matrix.get(12);
-		Mtmp[13] = matrix.get(13);
-		Mtmp[14] = matrix.get(14);
-		Mtmp[15] = matrix.get(15);
+		matrixStack.push(copy());
+	}
+	
+	public FloatBuffer copy() {
+		float[] tmp = new float[16];
+		tmp[0] = matrix.get(0);
+		tmp[1] = matrix.get(1);
+		tmp[2] = matrix.get(2);
+		tmp[3] = matrix.get(3);
+		tmp[4] = matrix.get(4);
+		tmp[5] = matrix.get(5);
+		tmp[6] = matrix.get(6);
+		tmp[7] = matrix.get(7);
+		tmp[8] = matrix.get(8);
+		tmp[9] = matrix.get(9);
+		tmp[10] = matrix.get(10);
+		tmp[11] = matrix.get(11);
+		tmp[12] = matrix.get(12);
+		tmp[13] = matrix.get(13);
+		tmp[14] = matrix.get(14);
+		tmp[15] = matrix.get(15);
 
-		FloatBuffer tmp = BufferUtils.newFloatBuffer(16);
-		tmp.put(Mtmp);
-		tmp.rewind();
-		matrixStack.push(tmp);
+		FloatBuffer tmpBuff = BufferUtils.newFloatBuffer(16);
+		tmpBuff.put(tmp);
+		tmpBuff.rewind();
+		return tmpBuff;
 	}
 	
 	public void popMatrix()
@@ -183,7 +188,6 @@ public class ModelMatrix {
 	}
 	
 	public Vector3 forward() {
-		System.out.println( matrix.get(4) + " " +matrix.get(5)+ " " + matrix.get(6));
 		return new Vector3(matrix.get(4), matrix.get(5), matrix.get(6));
 	}
 	
