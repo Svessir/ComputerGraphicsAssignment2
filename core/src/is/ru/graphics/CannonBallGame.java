@@ -4,16 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-import java.awt.Canvas;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.badlogic.gdx.utils.BufferUtils;
 
 import is.ru.graphics.gameobjects.Camera;
 import is.ru.graphics.gameobjects.Cannon;
-import is.ru.graphics.gameobjects.CannonBall;
 import is.ru.graphics.gameobjects.GameCanvas;
 import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.gameobjects.LineObstacle;
@@ -26,7 +23,6 @@ import is.ru.graphics.math.ModelMatrix;
 public class CannonBallGame extends ApplicationAdapter {
 
 	private FloatBuffer modelMatrix;
-	private FloatBuffer projectionMatrix;
 
 	private int renderingProgramID;
 	private int vertexShaderID;
@@ -166,60 +162,5 @@ public class CannonBallGame extends ApplicationAdapter {
 	private void clearScreen() {
 		Gdx.gl.glClearColor(0.3f, 0.6f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	}
-	
-	private void OrthographicProjection2D(float left, float right, float bottom, float top) {
-		float[] pm = new float[16];
-
-		pm[0] = 2.0f / (right - left); pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = -(right + left)/(right - left);
-		pm[1] = 0.0f; pm[5] = 2.0f / (top - bottom); pm[9] = 0.0f; pm[13] = -(top + bottom)/(top - bottom);
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = 1.0f; pm[14] = 0.0f;
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		projectionMatrix = BufferUtils.newFloatBuffer(16);
-		projectionMatrix.put(pm);
-		projectionMatrix.rewind();
-		Gdx.gl.glUniformMatrix4fv(projectionMatrixLoc, 1, false, projectionMatrix);
-	}
-	
-	private void clearModelMatrix()
-	{
-		// m[0] m[4] m[8]  m[12]
-		// m[1] m[5] m[9]  m[13]
-		// m[2] m[6] m[10] m[14]
-		// m[3] m[7] m[11] m[15]
-		
-		modelMatrix.put(0, 1.0f);
-		modelMatrix.put(1, 0.0f);
-		modelMatrix.put(2, 0.0f);
-		modelMatrix.put(3, 0.0f);
-		modelMatrix.put(4, 0.0f);
-		modelMatrix.put(5, 1.0f);
-		modelMatrix.put(6, 0.0f);
-		modelMatrix.put(7, 0.0f);
-		modelMatrix.put(8, 0.0f);
-		modelMatrix.put(9, 0.0f);
-		modelMatrix.put(10, 1.0f);
-		modelMatrix.put(11, 0.0f);
-		modelMatrix.put(12, 0.0f);
-		modelMatrix.put(13, 0.0f);
-		modelMatrix.put(14, 0.0f);
-		modelMatrix.put(15, 1.0f);
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrix);
-	}
-	private void setModelMatrixTranslation(float xTranslate, float yTranslate)
-	{
-		modelMatrix.put(12, xTranslate);
-		modelMatrix.put(13, yTranslate);
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrix);
-	}
-	private void setModelMatrixScale(float xScale, float yScale)
-	{
-		modelMatrix.put(0, xScale);
-		modelMatrix.put(5, yScale);
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrix);
 	}
 }

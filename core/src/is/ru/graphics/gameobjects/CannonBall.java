@@ -11,7 +11,6 @@ public class CannonBall extends GameObject {
 	private float speed = 10.0f;
 	
 	public CannonBall() {
-		Vector3 forward = transform.forward();
 	}
 	
 	@Override
@@ -29,12 +28,6 @@ public class CannonBall extends GameObject {
 		ModelMatrix.main.setShaderMatrix();
 		RectangleGraphics.drawSolidSquare();
 		ModelMatrix.main.popMatrix();
-	}
-
-	@Override
-	public void onCollision(Vector3 normal) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

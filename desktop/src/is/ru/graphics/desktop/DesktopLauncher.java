@@ -8,9 +8,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
-		config.title = "Cannon Ball!"; // or whatever you like
-		config.width = 800; 			//experiment with
-		config.height = 800; 			//the window size
+		config.title = "Cannon Ball!";
+		config.width = 1280;
+		config.height = 960;
 		
 		new LwjglApplication(CannonBallGame.getInstance(), config);
 	}

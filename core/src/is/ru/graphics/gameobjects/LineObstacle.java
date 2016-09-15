@@ -30,17 +30,11 @@ public class LineObstacle extends DrawableGameObject {
 	}
 
 	@Override
-	public void onCollision(Vector3 normal) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void changeDiagonalCorners(float point1_x, float point1_y, float point2_x, float point2_y) {
-		point1.x = point1_x;
-		point1.y = point1_y;
-		point2.x = point2_x;
-		point2.y = point2_y;
+	public void draw(float drawStart_x, float drawStart_y, float drawEnd_x, float drawEnd_y) {
+		point1.x = drawStart_x;
+		point1.y = drawStart_y;
+		point2.x = drawEnd_x;
+		point2.y = drawEnd_y;
 		
 	}
 

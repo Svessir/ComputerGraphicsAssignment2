@@ -1,9 +1,6 @@
 package is.ru.graphics.gameobjects;
 
-import com.badlogic.gdx.math.Vector3;
-
 import is.ru.graphics.CannonBallGame;
-import is.ru.graphics.math.Collision;
 import is.ru.graphics.math.ModelMatrix;
 
 /**
@@ -55,7 +52,5 @@ public abstract class GameObject {
 	
 	public abstract void update(float deltatime);
 	public abstract void draw(int colorloc);
-	
-	public abstract void onCollision(Vector3 normal);
 	
 }

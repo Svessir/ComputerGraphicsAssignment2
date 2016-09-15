@@ -1,7 +1,5 @@
 package is.ru.graphics.gameobjects;
 
-import com.badlogic.gdx.math.Vector3;
-
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
@@ -37,22 +35,16 @@ public class RectangleObstacle extends DrawableGameObject {
 	}
 
 	@Override
-	public void onCollision(Vector3 normal) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void changeDiagonalCorners(float point1_x, float point1_y, float point2_x, float point2_y) {
-		float left = Math.min(point1_x, point2_x);
-		float right = Math.max(point1_x, point2_x);
-		float bottom = Math.min(point1_y, point2_y);
-		float top = Math.max(point1_y, point2_y);
+	public void draw(float drawStart_x, float drawStart_y, float drawEnd_x, float drawEnd_y) {
+		float left = Math.min(drawStart_x, drawEnd_x);
+		float right = Math.max(drawStart_x, drawEnd_x);
+		float bottom = Math.min(drawStart_y, drawEnd_y);
+		float top = Math.max(drawStart_y, drawEnd_y);
 		
 		width = right - left;
 		height = top - bottom;
 		
-		// Calculate new centers
+		// Calculate new center
 		float center_x = left + width/2.0f;
 		float center_y = bottom + height/2.0f;
 		
@@ -61,7 +53,6 @@ public class RectangleObstacle extends DrawableGameObject {
 		
 		// Move transform to center coordinates
 		transform.addToBaseCoords(center_x, center_y, 0);
-		transform.print();
 	}
 
 }
