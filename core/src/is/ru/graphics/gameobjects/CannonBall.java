@@ -2,6 +2,7 @@ package is.ru.graphics.gameobjects;
 
 import com.badlogic.gdx.math.Vector3;
 
+import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
@@ -25,9 +26,10 @@ public class CannonBall extends GameObject {
 	public void draw(int colorloc) {
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTransformation(transform.matrix);
-		ModelMatrix.main.addScale(1.5f, 1, 0);
+		ModelMatrix.main.addScale(0.5f, 0.5f, 0);
 		ModelMatrix.main.setShaderMatrix();
-		RectangleGraphics.drawSolidSquare();
+		CircleGraphics.drawSolidCircle();
+		//RectangleGraphics.drawSolidSquare();
 		ModelMatrix.main.popMatrix();
 	}
 

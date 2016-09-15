@@ -18,6 +18,7 @@ import is.ru.graphics.gameobjects.GameCanvas;
 import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.gameobjects.RectangleObstacle;
 import is.ru.graphics.gameobjects.Target;
+import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
@@ -113,6 +114,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
 		
 		// Assign shader to RectangleGraphics
+		CircleGraphics.create(positionLoc);
 		RectangleGraphics.create(positionLoc);
 		
 		Camera.OrthographicProjection2D(-15, 15, -3, 27);

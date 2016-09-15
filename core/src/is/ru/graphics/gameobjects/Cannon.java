@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 
+import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
