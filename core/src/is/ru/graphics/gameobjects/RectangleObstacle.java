@@ -43,7 +43,12 @@ public class RectangleObstacle extends DrawableGameObject {
 	}
 
 	@Override
-	public void changeDiagonalCorners(float left, float right, float bottom, float top) {
+	public void changeDiagonalCorners(float point1_x, float point1_y, float point2_x, float point2_y) {
+		float left = Math.min(point1_x, point2_x);
+		float right = Math.max(point1_x, point2_x);
+		float bottom = Math.min(point1_y, point2_y);
+		float top = Math.max(point1_y, point2_y);
+		
 		width = right - left;
 		height = top - bottom;
 		
@@ -56,6 +61,7 @@ public class RectangleObstacle extends DrawableGameObject {
 		
 		// Move transform to center coordinates
 		transform.addToBaseCoords(center_x, center_y, 0);
+		transform.print();
 	}
 
 }

@@ -16,9 +16,11 @@ import is.ru.graphics.gameobjects.Cannon;
 import is.ru.graphics.gameobjects.CannonBall;
 import is.ru.graphics.gameobjects.GameCanvas;
 import is.ru.graphics.gameobjects.GameObject;
+import is.ru.graphics.gameobjects.LineObstacle;
 import is.ru.graphics.gameobjects.RectangleObstacle;
 import is.ru.graphics.gameobjects.Target;
 import is.ru.graphics.graphics.CircleGraphics;
+import is.ru.graphics.graphics.LineGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
 import is.ru.graphics.math.ModelMatrix;
 
@@ -49,7 +51,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		gameObjects.add(new Cannon());
 		gameObjects.add(new Target());
 		//gameObjects.add(new RectangleObstacle(1, 1, 5, 5));
-		gameObjects.add(new GameCanvas(new RectangleObstacle(), new RectangleObstacle()));
+		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle()));
 		
 		addedGameObjects = new ArrayList<GameObject>();
 		removedGameObjects = new ArrayList<GameObject>();
@@ -116,6 +118,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		// Assign shader to RectangleGraphics
 		CircleGraphics.create(positionLoc);
 		RectangleGraphics.create(positionLoc);
+		LineGraphics.create(positionLoc);
 		
 		Camera.OrthographicProjection2D(-15, 15, -3, 27);
 		Camera.setProjectionMatrix(projectionMatrixLoc);
