@@ -35,18 +35,25 @@ public class CannonBallGame extends ApplicationAdapter {
 
 	private int colorLoc;
 	
+	// Singleton instance of the game
 	private static CannonBallGame instance = new CannonBallGame();
 	
+	// Objects tracked within the world that need to be updated and drawn in each frame.
 	private ArrayList<GameObject> gameObjects;
+	
+	// Objects to be added after a frame. Needs to be cleared after each update cycle
 	private ArrayList<GameObject> addedGameObjects;
+	
+	// Objects to be removed after a frame. Needs to be cleared after each update cycle
 	private ArrayList<GameObject> removedGameObjects;
 	
 	private CannonBallGame() {
 		gameObjects = new ArrayList<GameObject>();
-		gameObjects.add(new Cannon());
-		gameObjects.add(new Target());
-		//gameObjects.add(new RectangleObstacle(1, 1, 5, 5));
-		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle()));
+	
+		// Add mandatory objects to the game
+		gameObjects.add(new Cannon()); 													// Player cannon
+		gameObjects.add(new Target()); 													// Target to hit
+		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
 		
 		addedGameObjects = new ArrayList<GameObject>();
 		removedGameObjects = new ArrayList<GameObject>();
@@ -110,10 +117,11 @@ public class CannonBallGame extends ApplicationAdapter {
 		
 		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
 		
-		// Assign shader to RectangleGraphics
+		// Assign shader to the graphics
 		RectangleGraphics.create(positionLoc);
 		LineGraphics.create(positionLoc);
 		
+		// initialize the camera
 		Camera.OrthographicProjection2D(-15, 15, -3, 27);
 		Camera.setProjectionMatrix(projectionMatrixLoc);
 	}
