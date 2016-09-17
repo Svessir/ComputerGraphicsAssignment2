@@ -20,6 +20,7 @@ import is.ru.graphics.gameobjects.Target;
 import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.LineGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
+import is.ru.graphics.graphics.TriangleGraphics;
 import is.ru.graphics.math.Collision;
 import is.ru.graphics.math.CollisionEdge;
 import is.ru.graphics.math.CollisionVertex;
@@ -114,6 +115,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		CircleGraphics.create(positionLoc);
 		RectangleGraphics.create(positionLoc);
 		LineGraphics.create(positionLoc);
+        TriangleGraphics.create(positionLoc);
 		
 		// initialize the camera
 		//Camera.OrthographicProjection2D(-15, 15, -3, 27);
