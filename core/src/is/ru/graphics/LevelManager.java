@@ -9,7 +9,6 @@ import is.ru.graphics.gameobjects.Camera;
 import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.gameobjects.LineObstacle;
 import is.ru.graphics.gameobjects.Target;
-import is.ru.graphics.math.ModelMatrix;
 
 public class LevelManager {
 
@@ -23,11 +22,8 @@ public class LevelManager {
 	}
 	
 	public LevelInfo getNextLevel() {
-		Target target = new Target();
 		Vector3 coord = getRandomTargetCoord();
-		ModelMatrix transform = new ModelMatrix();
-		transform.addTranslation(coord.x, coord.y, coord.z);
-		target.setTransform(transform);
+		Target target = new Target(coord);
 		ArrayList<GameObject> list = getTargetObstacles(coord);
 		list.add(target);
 		return new LevelInfo(list);
@@ -47,6 +43,7 @@ public class LevelManager {
 	private Vector3 getRandomTargetCoord() {
 		float x = (float)Math.random() * Gdx.graphics.getWidth();
 		float y = (float)Math.random() * Gdx.graphics.getHeight();
+		y += y < Gdx.graphics.getHeight() / 2.0f ? Gdx.graphics.getHeight() / 2.0f : 0f;
 		return Camera.screenToWorld(new Vector3(x,y,1));
 	}
 }

@@ -1,8 +1,5 @@
-package is.ru.graphics.gameobjects;
+package is.ru.graphics;
 
-/**
- * Created by Jóna on 17.9.2016.
- */
 public class GameManager {
     private static GameManager instance = new GameManager();
 

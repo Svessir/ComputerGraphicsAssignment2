@@ -11,11 +11,6 @@ public class CollisionEdge {
 		this.point1 = point1;
 		this.point2 = point2;
 		this.normal = new Vector3(-(this.point2.y - this.point1.y), this.point2.x - this.point1.x, 0.0f);
-		float length = normal.len();
-		//this.normal.x /= length;
-		//this.normal.y /= length;
-		
-		Vector3 v = new Vector3(point2.x - point1.x, point2.y - point1.y, 0);
 		this.normal.nor();
 	}
 	
@@ -25,9 +20,6 @@ public class CollisionEdge {
 		
 		float col_x = vertex.x + velocity.x * time_hit;
 		float col_y = vertex.y + velocity.y * time_hit;
-		
-		//if(time_hit >= 0)
-			//System.out.println(time_hit + " " + deltatime);
 		
 		if(Float.isNaN(time_hit) || Float.isInfinite(time_hit) || time_hit < 0 || time_hit > deltatime ||
 				col_x < Math.min(point1.x, point2.x) || col_x > Math.max(point1.x, point2.x) || 

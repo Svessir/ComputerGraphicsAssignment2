@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.CannonBallGame;
-import is.ru.graphics.math.Collision;
 import is.ru.graphics.math.CollisionEdge;
 import is.ru.graphics.math.CollisionVertex;
 import is.ru.graphics.math.ModelMatrix;
@@ -77,6 +76,9 @@ public abstract class GameObject {
 	}
 	
 	public void create() {
+	}
+	
+	public void onTouch() {	
 	}
 	
 	public abstract void update(float deltatime);

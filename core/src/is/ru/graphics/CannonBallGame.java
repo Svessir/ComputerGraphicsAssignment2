@@ -2,6 +2,7 @@ package is.ru.graphics;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 
@@ -16,7 +17,6 @@ import is.ru.graphics.gameobjects.GameCanvas;
 import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.gameobjects.LineObstacle;
 import is.ru.graphics.gameobjects.RectangleObstacle;
-import is.ru.graphics.gameobjects.Target;
 import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.LineGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
@@ -45,13 +45,19 @@ public class CannonBallGame extends ApplicationAdapter {
 	private static CannonBallGame instance = new CannonBallGame();
 	
 	// Objects tracked within the world that need to be updated and drawn in each frame.
-	private ArrayList<GameObject> gameObjects;
+	private ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 	
 	// Objects to be added after a frame. Needs to be cleared after each update cycle
-	private ArrayList<GameObject> addedGameObjects;
+	private ArrayList<GameObject> addedGameObjects = new ArrayList<GameObject>();
 	
 	// Objects to be removed after a frame. Needs to be cleared after each update cycle
-	private ArrayList<GameObject> removedGameObjects;
+	private ArrayList<GameObject> removedGameObjects = new ArrayList<GameObject>();
+	
+	private LevelInfo currentLevel;
+	
+	private Cannon cannon;
+	
+	private boolean isGameOver = false;
 	
 	public static CannonBallGame getInstance() {
 		return instance;
@@ -118,24 +124,18 @@ public class CannonBallGame extends ApplicationAdapter {
         TriangleGraphics.create(positionLoc);
 		
 		// initialize the camera
-		//Camera.OrthographicProjection2D(-15, 15, -3, 27);
 		Camera.OrthographicProjection2D(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight());
 		Camera.setProjectionMatrix(projectionMatrixLoc);
 		
-		gameObjects = new ArrayList<GameObject>();
+		cannon = new Cannon();
 		
-		// Add mandatory objects to the game
-		gameObjects.add(new Cannon()); 													// Player cannon
-		//gameObjects.add(new Target()); 												// Target to hit
-		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
-		gameObjects.addAll(LevelManager.getInstance().getNextLevel().gameObjects);
-		
-		addedGameObjects = new ArrayList<GameObject>();
-		removedGameObjects = new ArrayList<GameObject>();
+		currentLevel = LevelManager.getInstance().getNextLevel();
+		loadLevel(currentLevel);
 	}
 
 	@Override
 	public void render () {
+		input();
 		update();
 		display();
 	}
@@ -148,9 +148,14 @@ public class CannonBallGame extends ApplicationAdapter {
 		removedGameObjects.remove(object);
 	}
 	
+	public void endLevel() {
+		isGameOver = true;
+	}
+	
 	public Collision getCollision(GameObject obj, float deltatime) {
 		CollisionVertex vertex = obj.getCollisionVertex();
 		Collision latestCollision = null;
+		GameObject latestCollider = null;
 		
 		if(vertex == null)
 			return null;
@@ -161,10 +166,15 @@ public class CannonBallGame extends ApplicationAdapter {
 			
 			if(!edges.isEmpty()) {
 				collision = getLatestCollision(vertex.vertex, vertex.velocity, deltatime, edges);
-				latestCollision = collision != null && collision.compareTo(latestCollision) > 0 ? 
-						collision : latestCollision;
+				if(collision != null && collision.compareTo(latestCollision) > 0) {
+					latestCollision = collision;
+					latestCollider = o;
+				}
 			}
 		}
+		
+		if(latestCollider != null)
+			latestCollider.onTouch();
 		
 		return latestCollision;
 	}
@@ -181,10 +191,24 @@ public class CannonBallGame extends ApplicationAdapter {
 		return latesCollision;
 	}
 	
+	private void input() {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+			loadLevel(currentLevel);
+		}
+	}
+	
 	/**
 	 * Updates all objects in the game world
 	 */
 	private void update() {
+		
+		if(isGameOver) {
+			isGameOver = false;
+			currentLevel = LevelManager.getInstance().getNextLevel();
+			loadLevel(currentLevel);
+			return;
+		}
+		
 		float deltatime = Gdx.graphics.getDeltaTime();
 		
 		for(GameObject o : gameObjects) {
@@ -218,5 +242,13 @@ public class CannonBallGame extends ApplicationAdapter {
 	private void clearScreen() {
 		Gdx.gl.glClearColor(0.3f, 0.6f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+	
+	private void loadLevel(LevelInfo level) {
+		// Add mandatory objects to the game
+		gameObjects.clear();
+		gameObjects.add(cannon); 													// Player cannon
+		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
+		gameObjects.addAll(level.gameObjects);
 	}
 }

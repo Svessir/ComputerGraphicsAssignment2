@@ -3,7 +3,6 @@ package is.ru.graphics.gameobjects;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.graphics.CircleGraphics;
-import is.ru.graphics.graphics.TriangleGraphics;
 import is.ru.graphics.math.CollisionVertex;
 import is.ru.graphics.math.ModelMatrix;
 
@@ -33,8 +32,7 @@ public class CannonBall extends GameObject {
 		ModelMatrix.main.addTranslation(position.x, position.y, 0);
 		ModelMatrix.main.addScale(5f, 5f, 0);
 		ModelMatrix.main.setShaderMatrix();
-		TriangleGraphics.drawSolidTriangle();
-		//CircleGraphics.drawSolidCircle();
+		CircleGraphics.drawSolidCircle();
 		ModelMatrix.main.popMatrix();
 	}
 	
