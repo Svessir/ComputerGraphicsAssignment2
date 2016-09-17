@@ -17,10 +17,6 @@ public class CollisionEdge {
 		
 		Vector3 v = new Vector3(point2.x - point1.x, point2.y - point1.y, 0);
 		this.normal.nor();
-		if(!this.normal.isUnit())
-			System.out.println(this.normal.len());
-		//if(v.dot(normal) != 0)
-			//System.out.println(v.dot(normal));
 	}
 	
 	public Collision getCollision(Vector3 vertex, Vector3 velocity, float deltatime) {

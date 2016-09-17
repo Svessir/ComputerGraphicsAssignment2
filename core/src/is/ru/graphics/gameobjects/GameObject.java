@@ -35,6 +35,7 @@ public abstract class GameObject {
 			GameObject newObj = object.getClass().newInstance();
 			newObj.setTransform(transform);
 			CannonBallGame.getInstance().addGameObject(newObj);
+			newObj.create();
 			return newObj;
 		} catch (InstantiationException e) {
 			e.printStackTrace();
@@ -73,6 +74,9 @@ public abstract class GameObject {
 	}
 	
 	public void onCollision(Vector3 colliderNormal) {
+	}
+	
+	public void create() {
 	}
 	
 	public abstract void update(float deltatime);

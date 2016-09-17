@@ -12,7 +12,7 @@ public class Cannon extends GameObject {
 	private GameObject shot = new CannonBall();
 	private final float BARREL_LENGTH = 100f;
 	private final float ROTATION_PER_SECOND = 45.0f;
-	private final long FIRE_TIMEOUT_MILLIS = 1000;
+	private final long FIRE_TIMEOUT_MILLIS = 50;
 	
 	private long lastFireTimeMillis = 0;
 	
