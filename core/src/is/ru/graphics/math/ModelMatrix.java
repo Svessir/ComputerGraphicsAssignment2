@@ -191,6 +191,10 @@ public class ModelMatrix {
 		return new Vector3(matrix.get(4), matrix.get(5), matrix.get(6));
 	}
 	
+	public Vector3 origin() {
+		return new Vector3(matrix.get(12), matrix.get(13), matrix.get(14));
+	}
+	
 	public void print() {
 		System.out.println();
 		System.out.println(matrix.get(0) + " " + matrix.get(4) + " " + matrix.get(8) + " " + matrix.get(12));

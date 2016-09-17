@@ -1,6 +1,13 @@
 package is.ru.graphics.gameobjects;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.math.Vector3;
+
 import is.ru.graphics.CannonBallGame;
+import is.ru.graphics.math.Collision;
+import is.ru.graphics.math.CollisionEdge;
+import is.ru.graphics.math.CollisionVertex;
 import is.ru.graphics.math.ModelMatrix;
 
 /**
@@ -11,6 +18,7 @@ import is.ru.graphics.math.ModelMatrix;
 public abstract class GameObject {
 	
 	protected ModelMatrix transform;
+	protected float speed = 0.0f;
 	
 	public GameObject() {
 		transform = new ModelMatrix();
@@ -48,6 +56,23 @@ public abstract class GameObject {
 		ModelMatrix cpy = new ModelMatrix();
 		cpy.matrix = transform.copy();
 		this.transform = cpy;
+	}
+	
+	public final ModelMatrix getTransform() {
+		ModelMatrix modelMatrix = new ModelMatrix();
+		modelMatrix.matrix.put(transform.copy());
+		return modelMatrix;
+	}
+	
+	public ArrayList<CollisionEdge> getCollisionEdges() {
+		return new ArrayList<CollisionEdge>();
+	}
+	
+	public CollisionVertex getCollisionVertex() {
+		return null;
+	}
+	
+	public void onCollision(Vector3 colliderNormal) {
 	}
 	
 	public abstract void update(float deltatime);

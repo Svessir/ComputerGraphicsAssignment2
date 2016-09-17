@@ -1,6 +1,9 @@
 package is.ru.graphics.gameobjects;
 
+import java.util.ArrayList;
+
 import is.ru.graphics.graphics.RectangleGraphics;
+import is.ru.graphics.math.CollisionEdge;
 import is.ru.graphics.math.ModelMatrix;
 
 public class RectangleObstacle extends DrawableGameObject {
@@ -53,6 +56,11 @@ public class RectangleObstacle extends DrawableGameObject {
 		
 		// Move transform to center coordinates
 		transform.addToBaseCoords(center_x, center_y, 0);
+	}
+	
+	@Override
+	public ArrayList<CollisionEdge> getCollisionEdges() {
+		return super.getCollisionEdges();
 	}
 
 }

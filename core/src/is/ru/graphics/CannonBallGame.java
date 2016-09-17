@@ -3,6 +3,7 @@ package is.ru.graphics;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -16,8 +17,12 @@ import is.ru.graphics.gameobjects.GameObject;
 import is.ru.graphics.gameobjects.LineObstacle;
 import is.ru.graphics.gameobjects.RectangleObstacle;
 import is.ru.graphics.gameobjects.Target;
+import is.ru.graphics.graphics.CircleGraphics;
 import is.ru.graphics.graphics.LineGraphics;
 import is.ru.graphics.graphics.RectangleGraphics;
+import is.ru.graphics.math.Collision;
+import is.ru.graphics.math.CollisionEdge;
+import is.ru.graphics.math.CollisionVertex;
 import is.ru.graphics.math.ModelMatrix;
 
 public class CannonBallGame extends ApplicationAdapter {
@@ -46,18 +51,6 @@ public class CannonBallGame extends ApplicationAdapter {
 	
 	// Objects to be removed after a frame. Needs to be cleared after each update cycle
 	private ArrayList<GameObject> removedGameObjects;
-	
-	private CannonBallGame() {
-		gameObjects = new ArrayList<GameObject>();
-	
-		// Add mandatory objects to the game
-		gameObjects.add(new Cannon()); 													// Player cannon
-		gameObjects.add(new Target()); 													// Target to hit
-		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
-		
-		addedGameObjects = new ArrayList<GameObject>();
-		removedGameObjects = new ArrayList<GameObject>();
-	}
 	
 	public static CannonBallGame getInstance() {
 		return instance;
@@ -118,12 +111,24 @@ public class CannonBallGame extends ApplicationAdapter {
 		ModelMatrix.main.setShaderMatrix(modelMatrixLoc);
 		
 		// Assign shader to the graphics
+		CircleGraphics.create(positionLoc);
 		RectangleGraphics.create(positionLoc);
 		LineGraphics.create(positionLoc);
 		
 		// initialize the camera
-		Camera.OrthographicProjection2D(-15, 15, -3, 27);
+		//Camera.OrthographicProjection2D(-15, 15, -3, 27);
+		Camera.OrthographicProjection2D(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight());
 		Camera.setProjectionMatrix(projectionMatrixLoc);
+		
+		gameObjects = new ArrayList<GameObject>();
+		
+		// Add mandatory objects to the game
+		gameObjects.add(new Cannon()); 													// Player cannon
+		gameObjects.add(new Target()); 													// Target to hit
+		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
+		
+		addedGameObjects = new ArrayList<GameObject>();
+		removedGameObjects = new ArrayList<GameObject>();
 	}
 
 	@Override
@@ -140,6 +145,39 @@ public class CannonBallGame extends ApplicationAdapter {
 		removedGameObjects.remove(object);
 	}
 	
+	public Collision getCollision(GameObject obj, float deltatime) {
+		CollisionVertex vertex = obj.getCollisionVertex();
+		Collision latestCollision = null;
+		
+		if(vertex == null)
+			return null;
+		
+		for(GameObject o : gameObjects) {
+			Collision collision = null;
+			ArrayList<CollisionEdge> edges = o.getCollisionEdges();
+			
+			if(!edges.isEmpty()) {
+				collision = getLatestCollision(vertex.vertex, vertex.velocity, deltatime, edges);
+				latestCollision = collision != null && collision.compareTo(latestCollision) > 0 ? 
+						collision : latestCollision;
+			}
+		}
+		
+		return latestCollision;
+	}
+	
+	private Collision getLatestCollision(Vector3 vertex, Vector3 velocity, float deltatime, ArrayList<CollisionEdge> edges) {
+		Collision latesCollision = null;
+		
+		for(CollisionEdge e : edges) {
+			Collision collision = e.getCollision(vertex, velocity, deltatime);
+			latesCollision = collision != null && collision.compareTo(latesCollision) > 0 ? 
+					collision : latesCollision;
+		}
+		
+		return latesCollision;
+	}
+	
 	/**
 	 * Updates all objects in the game world
 	 */
@@ -147,6 +185,13 @@ public class CannonBallGame extends ApplicationAdapter {
 		float deltatime = Gdx.graphics.getDeltaTime();
 		
 		for(GameObject o : gameObjects) {
+			Collision c = getCollision(o, deltatime);
+			if(c != null) {
+				deltatime -= c.timeToCollision;
+				o.update(c.timeToCollision);
+				o.onCollision(c.colliderNormal);
+			}
+			
 			o.update(deltatime);
 		}
 		

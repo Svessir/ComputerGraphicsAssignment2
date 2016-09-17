@@ -1,8 +1,11 @@
 package is.ru.graphics.gameobjects;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.graphics.LineGraphics;
+import is.ru.graphics.math.CollisionEdge;
 import is.ru.graphics.math.ModelMatrix;
 
 public class LineObstacle extends DrawableGameObject {
@@ -13,6 +16,11 @@ public class LineObstacle extends DrawableGameObject {
 	public LineObstacle() {
 		point1 = new Vector3(0,0,1);
 		point2 = new Vector3(0,0,1);
+	}
+	
+	public LineObstacle(Vector3 point1, Vector3 point2) {
+		this.point1 = point1;
+		this.point2 = point2;
 	}
 	
 	@Override
@@ -26,6 +34,8 @@ public class LineObstacle extends DrawableGameObject {
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.setShaderMatrix();
 		LineGraphics.drawLine(point1.x, point1.y, point2.x, point2.y);
+		//CollisionEdge c = new CollisionEdge(point1, point2);
+		//LineGraphics.drawLine(point1.x, point1.y, point1.x + c.normal.x, point1.y + c.normal.y);
 		ModelMatrix.main.popMatrix();
 	}
 
@@ -36,6 +46,13 @@ public class LineObstacle extends DrawableGameObject {
 		point2.x = drawEnd_x;
 		point2.y = drawEnd_y;
 		
+	}
+	
+	@Override
+	public ArrayList<CollisionEdge> getCollisionEdges() {
+		ArrayList<CollisionEdge> list = new ArrayList<CollisionEdge>();
+		list.add(new CollisionEdge(point1, point2));
+		return list;
 	}
 
 }
