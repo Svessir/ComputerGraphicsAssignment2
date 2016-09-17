@@ -124,8 +124,9 @@ public class CannonBallGame extends ApplicationAdapter {
 		
 		// Add mandatory objects to the game
 		gameObjects.add(new Cannon()); 													// Player cannon
-		gameObjects.add(new Target()); 													// Target to hit
+		//gameObjects.add(new Target()); 												// Target to hit
 		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
+		gameObjects.addAll(LevelManager.getInstance().getNextLevel().gameObjects);
 		
 		addedGameObjects = new ArrayList<GameObject>();
 		removedGameObjects = new ArrayList<GameObject>();

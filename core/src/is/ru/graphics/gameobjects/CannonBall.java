@@ -38,8 +38,6 @@ public class CannonBall extends GameObject {
 	
 	@Override
 	public void onCollision(Vector3 colliderNormal) {
-		//Vector3 forward = transform.forward();
-		//forward.z = 0;
 		float b = 2 * forward.dot(colliderNormal);
 		Vector3 c = new Vector3(b * colliderNormal.x, b * colliderNormal.y, 0);
 		forward = new Vector3(forward.x - c.x, forward.y - c.y, 0);
