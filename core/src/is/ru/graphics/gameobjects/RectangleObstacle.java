@@ -2,6 +2,7 @@ package is.ru.graphics.gameobjects;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.graphics.RectangleGraphics;
@@ -32,7 +33,8 @@ public class RectangleObstacle extends DrawableGameObject {
 	@Override
 	public void draw(int colorloc) {
 		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTransformation(transform.matrix);
+        Gdx.gl.glUniform4f(colorloc, 1f, 1f, 1f, 1);
+        ModelMatrix.main.addTransformation(transform.matrix);
 		ModelMatrix.main.addScale(width, height, 1);
 		ModelMatrix.main.setShaderMatrix();
 		RectangleGraphics.drawSolidSquare();

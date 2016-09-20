@@ -241,7 +241,7 @@ public class CannonBallGame extends ApplicationAdapter {
 	}
 	
 	private void clearScreen() {
-		Gdx.gl.glClearColor(0.3f, 0.6f, 0.0f, 1.0f);
+		Gdx.gl.glClearColor(0.4f, 0f, 1f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	

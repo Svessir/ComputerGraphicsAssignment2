@@ -1,5 +1,6 @@
 package is.ru.graphics.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.graphics.CircleGraphics;
@@ -29,6 +30,7 @@ public class CannonBall extends GameObject {
 	@Override
 	public void draw(int colorloc) {
 		ModelMatrix.main.pushMatrix();
+		Gdx.gl.glUniform4f(colorloc, 0.6f, 0.6f, 0.6f, 1);
 		ModelMatrix.main.addTranslation(position.x, position.y, 0);
 		ModelMatrix.main.addScale(5f, 5f, 0);
 		ModelMatrix.main.setShaderMatrix();

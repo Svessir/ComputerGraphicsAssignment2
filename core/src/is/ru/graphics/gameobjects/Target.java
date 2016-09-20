@@ -2,6 +2,7 @@ package is.ru.graphics.gameobjects;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.CannonBallGame;
@@ -33,8 +34,9 @@ public class Target extends GameObject {
 	}
 
 	@Override
-	public void draw(int coslorloc) {
+	public void draw(int colorloc) {
 		ModelMatrix.main.pushMatrix();
+		Gdx.gl.glUniform4f(colorloc, 1f, 0f, 0, 1);
 		ModelMatrix.main.setShaderMatrix();
 		TriangleGraphics.drawSolidTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y);
 		ModelMatrix.main.popMatrix();

@@ -2,6 +2,7 @@ package is.ru.graphics.gameobjects;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
 import is.ru.graphics.graphics.LineGraphics;
@@ -32,10 +33,9 @@ public class LineObstacle extends DrawableGameObject {
 	@Override
 	public void draw(int colorloc) {
 		ModelMatrix.main.pushMatrix();
+		Gdx.gl.glUniform4f(colorloc, 0f, 1f, 1f, 1);
 		ModelMatrix.main.setShaderMatrix();
 		LineGraphics.drawLine(point1.x, point1.y, point2.x, point2.y);
-		//CollisionEdge c = new CollisionEdge(point1, point2);
-		//LineGraphics.drawLine(point1.x, point1.y, point1.x + c.normal.x, point1.y + c.normal.y);
 		ModelMatrix.main.popMatrix();
 	}
 
