@@ -50,7 +50,8 @@ public class Target extends GameObject {
 	}
 	
 	@Override
-	public void onTouch() {
+	public void onTouch(GameObject object) {
+		object.destroy();
 		CannonBallGame.getInstance().endLevel();
 	}
 

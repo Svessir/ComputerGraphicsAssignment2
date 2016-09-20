@@ -14,6 +14,8 @@ public class Cannon extends GameObject {
 	private final float ROTATION_PER_SECOND = 45.0f;
 	private final long FIRE_TIMEOUT_MILLIS = 50;
 	
+	GameObject lastFiredShot;
+	
 	private long lastFireTimeMillis = 0;
 	
 	public Cannon() {
@@ -29,7 +31,7 @@ public class Cannon extends GameObject {
 		if(System.currentTimeMillis() < lastFireTimeMillis + FIRE_TIMEOUT_MILLIS)
 			return;
 		
-		if(Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.Z) && (lastFiredShot == null || lastFiredShot.isDestroyed())) {
 			fire();
 		}
 		
@@ -71,7 +73,7 @@ public class Cannon extends GameObject {
 		t.loadIdentityMatrix();
 		t.addToBaseCoords(0, BARREL_LENGTH/2.0f, 0);
 		transform.addTransformation(t.matrix);
-		instantiate(shot, transform);
+		lastFiredShot = instantiate(shot, transform);
 		transform.popMatrix();
 	}
 

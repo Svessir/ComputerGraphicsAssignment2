@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.BufferUtils;
 
+import is.ru.graphics.gameobjects.Boundary;
 import is.ru.graphics.gameobjects.Camera;
 import is.ru.graphics.gameobjects.Cannon;
 import is.ru.graphics.gameobjects.GameCanvas;
@@ -145,7 +146,7 @@ public class CannonBallGame extends ApplicationAdapter {
 	}
 	
 	public void removeGameObject(GameObject object) {
-		removedGameObjects.remove(object);
+		removedGameObjects.add(object);
 	}
 	
 	public void endLevel() {
@@ -174,7 +175,7 @@ public class CannonBallGame extends ApplicationAdapter {
 		}
 		
 		if(latestCollider != null)
-			latestCollider.onTouch();
+			latestCollider.onTouch(obj);
 		
 		return latestCollision;
 	}
@@ -247,8 +248,9 @@ public class CannonBallGame extends ApplicationAdapter {
 	private void loadLevel(LevelInfo level) {
 		// Add mandatory objects to the game
 		gameObjects.clear();
-		gameObjects.add(cannon); 													// Player cannon
+		gameObjects.add(cannon); 														// Player cannon
 		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
 		gameObjects.addAll(level.gameObjects);
+		gameObjects.add(new Boundary(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight()));
 	}
 }

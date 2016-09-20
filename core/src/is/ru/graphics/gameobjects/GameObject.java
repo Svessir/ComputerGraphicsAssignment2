@@ -18,6 +18,7 @@ public abstract class GameObject {
 	
 	protected ModelMatrix transform;
 	protected float speed = 0.0f;
+	private boolean isDestroyed = false;
 	
 	public GameObject() {
 		transform = new ModelMatrix();
@@ -49,7 +50,12 @@ public abstract class GameObject {
 	 * Removes the given object from the game world.
 	 */
 	public final void destroy() {
+		isDestroyed = true;
 		CannonBallGame.getInstance().removeGameObject(this);
+	}
+	
+	public boolean isDestroyed() {
+		return isDestroyed;
 	}
 	
 	public void setTransform(ModelMatrix transform) {
@@ -78,7 +84,7 @@ public abstract class GameObject {
 	public void create() {
 	}
 	
-	public void onTouch() {	
+	public void onTouch(GameObject object) {	
 	}
 	
 	public abstract void update(float deltatime);
