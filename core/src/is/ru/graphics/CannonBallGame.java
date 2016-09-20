@@ -251,6 +251,8 @@ public class CannonBallGame extends ApplicationAdapter {
 		gameObjects.add(cannon); 														// Player cannon
 		gameObjects.add(new GameCanvas(new RectangleObstacle(), new LineObstacle())); 	// To draw obstacles
 		gameObjects.addAll(level.gameObjects);
-		gameObjects.add(new Boundary(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight()));
+		Vector3 point1 = Camera.screenToWorld(new Vector3(0, 0, 0));
+		Vector3 point2 = Camera.screenToWorld(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+		gameObjects.add(new Boundary(point1.x, point2.x, point1.y, point2.y));
 	}
 }

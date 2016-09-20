@@ -45,7 +45,6 @@ public class CannonBall extends GameObject {
 	
 	@Override
 	public CollisionVertex getCollisionVertex() {
-		//Vector3 velocity = transform.forward();
 		Vector3 velocity = new Vector3(forward);
 		velocity.x *= speed;
 		velocity.y *= speed;
